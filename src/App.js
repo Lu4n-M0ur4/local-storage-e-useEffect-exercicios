@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react'
-import { DivContainer, InputsContainer, ListaDeTarefas, Tarefa } from './style';
-
-
+import { useEffect, useState } from "react";
+import { DivContainer, InputsContainer, ListaDeTarefas, Tarefa } from "./style";
 
 function App() {
   const [tarefas, setTarefas] = useState([]);
   const [valorDoInput, setValorDoInput] = useState("");
-  const [filtro, setFiltro] = useState("")
+  const [filtro, setFiltro] = useState("");
 
   // useEffect() => {
   //   () => {
@@ -23,34 +21,46 @@ function App() {
   // };
 
   const pegarValorDoInput = (event) => {
-    console.log("aaa");
-  }
+    setValorDoInput(event.target.value);
+  };
 
   const criarTarefa = () => {
-    console.log("aaa");
-  }
+    let novaTarefa = {
+      id: Date.now(),
+      texto: valorDoInput,
+      completa: false,
+    };
+
+    valorDoInput.length && setTarefas([...tarefas, novaTarefa]);
+    setValorDoInput("");
+  };
 
   const selecionarTarefa = (id) => {
-    console.log("aaa");
-  }
+    tarefas.map((item) => {
+      if (item.id === id) {
+        if (item.completa == false) {
+          item.completa = true;
+          setTarefas([...tarefas]);
+        }
+      }
+    });
+  };
 
   const pegarValorDoSelect = (event) => {
-    console.log("aaa");
-  }
+    setFiltro(event.target.value);
+  };
 
-
-  const listaFiltrada = tarefas.filter(tarefa => {
+  const listaFiltrada = tarefas.filter((tarefa) => {
     switch (filtro) {
-      case 'pendentes':
-        return !tarefa.completa
-      case 'completas':
-        return tarefa.completa
+      case "pendentes":
+        return !tarefa.completa;
+      case "completas":
+        return tarefa.completa;
       default:
-        return true
+        return true;
     }
   });
-
-
+ 
   return (
     <DivContainer>
       <h1>Lista de tarefas</h1>
@@ -69,7 +79,7 @@ function App() {
         </select>
       </InputsContainer>
       <ListaDeTarefas>
-        {listaFiltrada.map(tarefa => {
+        {listaFiltrada.map((tarefa) => {
           return (
             <Tarefa
               completa={tarefa.completa}
@@ -77,12 +87,11 @@ function App() {
             >
               {tarefa.texto}
             </Tarefa>
-          )
+          );
         })}
       </ListaDeTarefas>
     </DivContainer>
-  )
+  );
 }
 
-
-export default App
+export default App;
